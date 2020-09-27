@@ -35,20 +35,29 @@ $(document).ready(function () {
     }
   });
 
-//call POST function
 
   $(':button').click(function () {
-    //call POST function
-    alert(Object.keys(d));
+    // alert(Object.keys(d).length);
+    $.ajax({
+      type: 'POST',
+      url: 'http://0.0.0.0:5001/api/v1/places_search/',
+      data: (Object.keys(d).length === 0) ? '{}' : {"amenities": Object.keys(d)},
+      success: function (data) {
+        $(data).each(function () {
+          $('section.places').append('<article><div class="title_box"><h2>' + `${this.name}` + '</h2><div class="price_by_night">' + `${this.price_by_night}` + '</div></div><div class="information"><div class="max_guest">' + `${this.max_guest}` + '</div><div class="number_rooms">' + `${this.number_rooms}` + '</div><div class="number_bathrooms">' + `${this.number_bathrooms}` + '</div></div><div class="description">' + `${this.description}` + '</div></article>');
+        });
+      },
+      contentType: 'application/json',
+      dataType: 'json'
+    });
   });
 
-//make this into it's own function outside of document ready
+// would like to make this into it's own function outside of document ready
+  // to avoid redundancy
   $.ajax({
     type: 'POST',
     url: 'http://0.0.0.0:5001/api/v1/places_search/',
-    // will probably have to revise how data is passed
-    // this is just one idea I had before deciding to make it into it's own function
-    data: (Object.keys(d)) ? '{}' : {"amenities": Object.keys(d)},
+    data: (Object.keys(d).length === 0) ? '{}' : {"amenities": Object.keys(d)},
     success: function (data) {
       $(data).each(function () {
         $('section.places').append('<article><div class="title_box"><h2>' + `${this.name}` + '</h2><div class="price_by_night">' + `${this.price_by_night}` + '</div></div><div class="information"><div class="max_guest">' + `${this.max_guest}` + '</div><div class="number_rooms">' + `${this.number_rooms}` + '</div><div class="number_bathrooms">' + `${this.number_bathrooms}` + '</div></div><div class="description">' + `${this.description}` + '</div></article>');

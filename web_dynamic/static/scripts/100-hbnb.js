@@ -4,7 +4,10 @@
 */
 const $ = window.$;
 const jQuery = window.jQuery;
-const d = {};
+const a = {};
+const c = {};
+const s = {};
+const d = { amenities: a, cities: c, states: s };
 $(document).ready(function () {
   const ur = 'http://localhost:5001/api/v1/status/';
   $.getJSON(ur, function (data) {
@@ -14,50 +17,70 @@ $(document).ready(function () {
       $('div#api_status').removeClass('available');
     }
   });
-  
-  $(".locations div.popover ul li [type='checkbox']").click(function () {
+
+  $(".locations div.popover ul li [type='checkbox']#city").click(function () {
     if ($(this).is(':checked')) {
       $('.locations h4').empty();
-      d[$(this).attr('data-id')] = ($(this).attr('data-name'));
-      $('.locations h4').append(Object.values(d).join(', '));
+      c[$(this).attr('data-id')] = ($(this).attr('data-name'));
+      $('.locations h4').append(Object.values(c).join(', '));
     } else {
-      delete d[$(this).attr('data-id')];
+      delete c[$(this).attr('data-id')];
       $('.locations h4').empty();
-      if (jQuery.isEmptyObject(d)) {
+      if (jQuery.isEmptyObject(c)) {
         $('.locations h4').empty();
         $('.locations h4').append('&nbsp;');
       } else {
         $('.locations h4').empty();
-        $('.locations h4').append(Object.values(d).join(', '));
+        $('.locations h4').append(Object.values(c).join(', '));
       }
     }
   });
 
+  $(".locations div.popover ul li [type='checkbox']#state").click(function () {
+    if ($(this).is(':checked')) {
+      $('.locations h4').empty();
+      s[$(this).attr('data-id')] = ($(this).attr('data-name'));
+      $('.locations h4').append(Object.values(s).join(', '));
+    } else {
+      delete s[$(this).attr('data-id')];
+      $('.locations h4').empty();
+      if (jQuery.isEmptyObject(s)) {
+        $('.locations h4').empty();
+        $('.locations h4').append('&nbsp;');
+      } else {
+        $('.locations h4').empty();
+        $('.locations h4').append(Object.values(s).join(', '));
+      }
+    }
+  });
 
-  $(".amenities div.popover ul li [type='checkbox']").click(function () {
+  $(".amenities div.popover ul li [type='checkbox']#amenity").click(function () {
     if ($(this).is(':checked')) {
       $('.amenities h4').empty();
-      d[$(this).attr('data-id')] = ($(this).attr('data-name'));
-      $('.amenities h4').append(Object.values(d).join(', '));
+      a[$(this).attr('data-id')] = ($(this).attr('data-name'));
+      $('.amenities h4').append(Object.values(a).join(', '));
     } else {
-      delete d[$(this).attr('data-id')];
+      delete a[$(this).attr('data-id')];
       $('.amenities h4').empty();
-      if (jQuery.isEmptyObject(d)) {
+      if (jQuery.isEmptyObject(a)) {
         $('.amenities h4').empty();
         $('.amenities h4').append('&nbsp;');
       } else {
         $('.amenities h4').empty();
-        $('.amenities h4').append(Object.values(d).join(', '));
+        $('.amenities h4').append(Object.values(a).join(', '));
       }
     }
   });
 
   $(':button').click(function (e) {
     e.preventDefault();
+    d.amenities = Object.keys(a);
+    d.cities = Object.keys(c);
+    d.states = Object.keys(s);
     $.ajax({
       type: 'POST',
       url: 'http://localhost:5001/api/v1/places_search/',
-      data: (Object.keys(d).length === 0) ? '{}' : JSON.stringify({ amenities: Object.keys(d) }),
+      data: (Object.keys(d).length === 0) ? '{}' : JSON.stringify(d),
       success: function (data) {
         $('section.places').empty();
         $(data).each(function () {

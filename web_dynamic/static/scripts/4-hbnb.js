@@ -6,7 +6,7 @@ const $ = window.$;
 const jQuery = window.jQuery;
 const d = {};
 $(document).ready(function () {
-  const ur = 'http://0.0.0.0:5001/api/v1/status/';
+  const ur = 'http://localhost:5001/api/v1/status/';
   $.getJSON(ur, function (data) {
     if (data.status === 'OK') {
       $('div#api_status').addClass('available');
@@ -37,7 +37,7 @@ $(document).ready(function () {
     e.preventDefault();
     $.ajax({
       type: 'POST',
-      url: 'http://0.0.0.0:5001/api/v1/places_search/',
+      url: 'http://localhost:5001/api/v1/places_search/',
       data: (Object.keys(d).length === 0) ? '{}' : JSON.stringify({ amenities: Object.keys(d) }),
       success: function (data) {
         $('section.places').empty();
@@ -52,7 +52,7 @@ $(document).ready(function () {
 
   $.ajax({
     type: 'POST',
-    url: 'http://0.0.0.0:5001/api/v1/places_search/',
+    url: 'http://localhost:5001/api/v1/places_search/',
     data: (Object.keys(d).length === 0) ? '{}' : JSON.stringify({ amenities: Object.keys(d) }),
     success: function (data) {
       $(data).each(function () {

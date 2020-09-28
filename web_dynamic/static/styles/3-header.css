@@ -7,16 +7,18 @@ header {
 header .logo {
     background: url("../images/logo.png") no-repeat;
     left: 20px;
+    width: 50%;
+    float: left;
     height: 100%;
 }
 header div#api_status {
-    right: 30px;
-    top: 15px;
-    position: fixed;
+    margin-right: 30px;
+    margin-top: 15px;
+    float: right;
     height: 40px;
     width: 40px;
     vertical-align: center;
-    border-radius: 400px;
+    border-radius: 50%;
     background: #cccccc;
 }
 header div#api_status.available {

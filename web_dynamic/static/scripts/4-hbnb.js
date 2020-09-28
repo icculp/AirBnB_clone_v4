@@ -5,7 +5,6 @@
 const $ = window.$;
 const jQuery = window.jQuery;
 const d = {};
-const keys = {};
 $(document).ready(function () {
   const ur = 'http://0.0.0.0:5001/api/v1/status/';
   $.getJSON(ur, function (data) {
@@ -20,7 +19,6 @@ $(document).ready(function () {
     if ($(this).is(':checked')) {
       $('.amenities h4').empty();
       d[$(this).attr('data-id')] = ($(this).attr('data-name'));
-      $('keys.amenities').append($(this).attr('data-id'));
       $('.amenities h4').append(Object.values(d).join(', '));
     } else {
       delete d[$(this).attr('data-id')];
@@ -35,14 +33,14 @@ $(document).ready(function () {
     }
   });
 
-
-  $(':button').click(function () {
-    // alert(Object.keys(d).length);
+  $(':button').click(function (e) {
+    e.preventDefault();
     $.ajax({
       type: 'POST',
       url: 'http://0.0.0.0:5001/api/v1/places_search/',
-      data: (Object.keys(d).length === 0) ? '{}' : {"amenities": Object.keys(d)},
+      data: (Object.keys(d).length === 0) ? '{}' : JSON.stringify({ amenities: Object.keys(d) }),
       success: function (data) {
+        $('section.places').empty();
         $(data).each(function () {
           $('section.places').append('<article><div class="title_box"><h2>' + `${this.name}` + '</h2><div class="price_by_night">' + `${this.price_by_night}` + '</div></div><div class="information"><div class="max_guest">' + `${this.max_guest}` + '</div><div class="number_rooms">' + `${this.number_rooms}` + '</div><div class="number_bathrooms">' + `${this.number_bathrooms}` + '</div></div><div class="description">' + `${this.description}` + '</div></article>');
         });
@@ -52,12 +50,10 @@ $(document).ready(function () {
     });
   });
 
-// would like to make this into it's own function outside of document ready
-  // to avoid redundancy
   $.ajax({
     type: 'POST',
     url: 'http://0.0.0.0:5001/api/v1/places_search/',
-    data: (Object.keys(d).length === 0) ? '{}' : {"amenities": Object.keys(d)},
+    data: (Object.keys(d).length === 0) ? '{}' : JSON.stringify({ amenities: Object.keys(d) }),
     success: function (data) {
       $(data).each(function () {
         $('section.places').append('<article><div class="title_box"><h2>' + `${this.name}` + '</h2><div class="price_by_night">' + `${this.price_by_night}` + '</div></div><div class="information"><div class="max_guest">' + `${this.max_guest}` + '</div><div class="number_rooms">' + `${this.number_rooms}` + '</div><div class="number_bathrooms">' + `${this.number_bathrooms}` + '</div></div><div class="description">' + `${this.description}` + '</div></article>');

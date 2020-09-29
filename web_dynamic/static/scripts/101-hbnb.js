@@ -98,7 +98,7 @@ $(document).ready(function () {
     data: (Object.keys(d).length === 0) ? '{}' : JSON.stringify(d),
     success: function (data) {
       $(data).each(function () {
-        $('section.places').append('<article><div class="title_box"><h2>' + `${this.name}` + '</h2><div class="price_by_night">$' + `${this.price_by_night}` + '</div></div><div class="information"><div class="max_guest">' + `${this.max_guest}` + '</div><div class="number_rooms">' + `${this.number_rooms}` + '</div><div class="number_bathrooms">' + `${this.number_bathrooms}` + '</div></div><div class="description">' + `${this.description}` + '</div></article>');
+        $('section.places').append('<article><div class="title_box"><h2>' + `${this.name}` + '</h2><div class="price_by_night">$' + `${this.price_by_night}` + '</div></div><div class="information"><div class="max_guest">' + `${this.max_guest}` + '</div><div class="number_rooms">' + `${this.number_rooms}` + '</div><div class="number_bathrooms">' + `${this.number_bathrooms}` + '</div></div><div class="description">' + `${this.description}` + '</div><div class=reviews><h2>' + `${this.reviews}` + ' Reviews</h2><ul><li><h3>From Kamie Nean the 6th September 2017</h3><p>I felt like a Queen during my stay!</p></li><li><h3>From Heman the 5th October 2017</h3><p>Beautiful Place.</p></li><li><h3>From Numa the 15th August 2017</h3><p>Great view and service!</p></li></ul></div></article>');
       });
     },
     contentType: 'application/json',
